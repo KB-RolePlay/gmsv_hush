@@ -1,0 +1,47 @@
+name: CI - Release Compilation
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Install dependencies
+        run: |
+          dpkg --add-architecture i386
+          apt update
+          apt install -y build-essential git libstdc++6:i386 gcc-multilib g++-multilib wget
+      - name: Checkout code
+        uses: actions/checkout@v3
+      -
+        name: Clone garrysmod_common
+        run: git clone --branch master --depth 1 https://github.com/danielga/garrysmod_common
+      -
+        name: Update submodules
+        run: |
+          cd garrysmod_common
+          git submodule update --init --recursive
+      -
+        name: Download premake5
+        run: |
+          cd ..
+          wget https://github.com/premake/premake-core/releases/download/v5.0.0-beta4/premake-5.0.0-beta4-linux.tar.gz -O premake.tar.gz
+          tar -xzf premake.tar.gz
+          chmod +x premake5
+          rm premake.tar.gz
+      -
+        name: Generate project files
+        run: ./premake5 --os=linux --gmcommon=./garrysmod_common gmake2
+      -
+        name: Build
+        run: |
+          cd projects/linux/gmake2
+          make
+      -
+        name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: gmsv_hush_linux.dll
+          path: projects/linux/gmake2/x86/ReleaseWithSymbols/gmsv_hush_linux.dll
