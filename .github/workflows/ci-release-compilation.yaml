@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: debian:stable-slim
+    permissions:
+      contents: write
     steps:
       -
         name: Install dependencies
@@ -41,10 +43,7 @@ jobs:
           make
       -
         name: Upload as release asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: projects/linux/gmake2/x86/ReleaseWithSymbols/gmsv_hush_linux.dll
-          asset_name: gmsv_hush_linux.dll
-          asset_content_type: application/octet-stream
-          asset_label: Linux 32-bit
+          files: |
+            projects/linux/gmake2/x86/ReleaseWithSymbols/gmsv_hush_linux.dll
