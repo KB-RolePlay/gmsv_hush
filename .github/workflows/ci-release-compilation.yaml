@@ -41,7 +41,7 @@ jobs:
           make
       -
         name: Upload binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: gmsv_hush_linux.dll
           path: projects/linux/gmake2/x86/ReleaseWithSymbols/gmsv_hush_linux.dll
