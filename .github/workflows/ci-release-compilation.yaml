@@ -27,7 +27,6 @@ jobs:
       -
         name: Download premake5
         run: |
-          cd ..
           wget https://github.com/premake/premake-core/releases/download/v5.0.0-beta4/premake-5.0.0-beta4-linux.tar.gz -O premake.tar.gz
           tar -xzf premake.tar.gz
           chmod +x premake5
