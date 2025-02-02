@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: debian:bullseye
+    container: debian:stable-slim
     steps:
       -
         name: Install dependencies
