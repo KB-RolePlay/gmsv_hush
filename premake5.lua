@@ -18,3 +18,8 @@ CreateWorkspace({name = "hush", abi_compatible = false, path = "projects/" .. os
 		IncludeSDKCommon()
 		IncludeSDKTier0()
 		IncludeSDKTier1()
+		
+filter { "system:linux", "platforms:x86" }
+	architecture "x86"
+	buildoptions { "-m32", "-shared", "-fPIC", "-Wall", "-O2" }
+	links { "stdc++" }
